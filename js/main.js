@@ -14,40 +14,44 @@ let LIST, id;
 
 
 
-// get item from localestorage
+
 let data = localStorage.getItem("TODO");
 
-if(data){
+if (data) {
     LIST = JSON.parse(data);
     id = LIST.length;
     loadList(LIST);
-}else{
+} else {
     LIST = [];
     id = 0;
 }
 
 // load items to interface
-function loadList(array){
-    array.forEach(function(item){
+function loadList(array) {
+    array.forEach(function (item) {
         addToDo(item.name, item.id, item.done, item.trash);
     });
 }
 
-clear.addEventListener("click", function(){
+clear.addEventListener("click", function () {
     localStorage.clear();
     location.reload();
 })
 // SHOW TODAY DATE
-const options = {weekday: "long", month : "short", day : "numeric"};
+const options = {
+    weekday: "long",
+    month: "short",
+    day: "numeric"
+};
 const today = new Date();
 
 dateElement.innerHTML = today.toLocaleDateString("en-US", options);
 
 // TO FUNCTION
 
-function addToDo(toDo, id, done, trash){
+function addToDo(toDo, id, done, trash) {
 
-    if(trash){
+    if (trash) {
         return;
 
     }
@@ -65,10 +69,10 @@ function addToDo(toDo, id, done, trash){
     list.insertAdjacentHTML(position, item);
 }
 
-document.addEventListener("keyup", function(even){
-    if(even.keyCode == 13){
+document.addEventListener("keyup", function (even) {
+    if (even.keyCode == 13) {
         const toDo = input.value;
-        if(toDo){
+        if (toDo) {
             addToDo(toDo, id, false, false);
 
             LIST.push({
@@ -88,7 +92,7 @@ document.addEventListener("keyup", function(even){
 // addToDo("Coffee", 1, false, false);
 
 // completion on todo
-function completeToDo(element){
+function completeToDo(element) {
     element.classList.toggle(CHECK);
     element.classList.toggle(UNCHECK);
     element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
@@ -97,7 +101,7 @@ function completeToDo(element){
 }
 
 // remove to do
-function removeToDo (element){
+function removeToDo(element) {
     element.parentNode.parentNode.removeChild(element.parentNode);
 
     LIST[element.id].trash = true;
@@ -105,13 +109,13 @@ function removeToDo (element){
 
 // TARGET DYNA OBJ
 
-list.addEventListener("click", function(event){
+list.addEventListener("click", function (event) {
     const element = event.target;
     const elementJob = element.attributes.job.value;
 
-    if(elementJob == "complete"){
+    if (elementJob == "complete") {
         completeToDo(element);
-    }else if(elementJob == "delete"){
+    } else if (elementJob == "delete") {
         removeToDo(element);
 
     }
